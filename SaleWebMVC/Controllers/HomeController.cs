@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SaleWebMVC.Models;
+using SaleWebMVC.Models.ViewModels;
 
 namespace SaleWebMVC.Controllers;
 
@@ -9,6 +9,13 @@ public class HomeController : Controller {
 
     public HomeController(ILogger<HomeController> logger) {
         _logger = logger;
+    }
+
+    public IActionResult About() {
+        ViewData["title"]    = "Sales Web MVC App From C# Course";
+        ViewData["subTitle"] = "Testing subTitle";
+
+        return View();
     }
 
     public IActionResult Index() {

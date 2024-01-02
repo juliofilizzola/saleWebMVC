@@ -1,4 +1,4 @@
-namespace SaleWebMVC2.Models;
+namespace SaleWebMVC.Models;
 
 public class ErrorViewModel {
     public string? RequestId { get; set; }

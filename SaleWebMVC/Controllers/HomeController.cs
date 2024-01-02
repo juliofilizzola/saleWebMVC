@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SaleWebMVC2.Models;
+using SaleWebMVC.Models;
 
-namespace SaleWebMVC2.Controllers;
+namespace SaleWebMVC.Controllers;
 
 public class HomeController : Controller {
     private readonly ILogger<HomeController> _logger;

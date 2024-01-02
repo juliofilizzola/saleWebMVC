@@ -1,4 +1,4 @@
-﻿namespace SaleWebMVC2.Models;
+﻿namespace SaleWebMVC.Models;
 
 public class Department {
     public int    Id   { get; set; }

@@ -2,6 +2,7 @@
 services:
   db:
     image: mysql:8.1.0
+    container_name: MySQL-SaleWeb
     restart: always
     environment:
       - MYSQL_DATABASE=SaleWeb
@@ -14,3 +15,4 @@ services:
 volumes:
   db:
     driver: local
+    name: SaleWebDB

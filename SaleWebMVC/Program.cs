@@ -1,4 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore;
+using SaleWebMVC.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Register DbContext
+builder.Services.AddDbContextPool<SaleWebMvcContext>(options => {
+    var connectionString = builder.Configuration.GetConnectionString("SaleWebMVCContext");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -14,9 +25,7 @@ if (!app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

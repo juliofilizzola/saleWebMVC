@@ -30,8 +30,4 @@
       <PackageReference Include="Pomelo.Extensions.Caching.MySql" Version="2.1.4" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\" />
-    </ItemGroup>
-
 </Project>

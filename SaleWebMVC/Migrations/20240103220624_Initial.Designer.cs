@@ -11,8 +11,8 @@ using SaleWebMVC.Data;
 namespace SaleWebMVC.Migrations
 {
     [DbContext(typeof(SaleWebMvcContext))]
-    [Migration("20240102175111_Saller-rename")]
-    partial class Sallerrename
+    [Migration("20240103220624_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

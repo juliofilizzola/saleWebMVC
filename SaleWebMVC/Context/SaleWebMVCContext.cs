@@ -10,5 +10,7 @@ namespace SaleWebMVC.Data
     public class SaleWebMvcContext(DbContextOptions<SaleWebMvcContext> options) : DbContext(options) {
 
         public DbSet<SaleWebMVC.Models.Department> Department { get; set; } = default!;
+        public DbSet<SaleWebMVC.Models.SaleRecord> SaleRecord { get; set; } = default!;
+        public DbSet<SaleWebMVC.Models.Seller> Seller { get; set; } = default!;
     }
 }

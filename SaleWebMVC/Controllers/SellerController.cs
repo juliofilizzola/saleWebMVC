@@ -1,42 +1,28 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SaleWebMVC.Data;
 using SaleWebMVC.Models;
+using SaleWebMVC.Service;
 
 namespace SaleWebMVC.Controllers
 {
-    public class SellerController : Controller
-    {
-        private readonly SaleWebMvcContext _context;
-
-        public SellerController(SaleWebMvcContext context)
-        {
-            _context = context;
-        }
+    public class SellerController(SellerService context) : Controller {
+        // private readonly SaleWebMvcContext _context;
+        private readonly SellerService _sellerService = context;
 
         // GET: Seller
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Seller.ToListAsync());
+        public async Task<ViewResult> Index() {
+            var response = await _sellerService.FindAll();
+            return View(response);
         }
 
         // GET: Seller/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<IActionResult> Details(int? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var seller = await _context.Seller
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (seller == null)
-            {
+            var seller = await _sellerService.FindByIdAsync(id);
+            if (seller == null) {
                 return NotFound();
             }
 
@@ -44,92 +30,71 @@ namespace SaleWebMVC.Controllers
         }
 
         // GET: Seller/Create
-        public IActionResult Create()
-        {
+        public IActionResult Create() {
             return View();
         }
 
         // POST: Seller/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // To protect from overcasting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,BaseSalary,BirthDate")] Seller seller)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(seller);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(seller);
+        public async Task<IActionResult> Create(Seller seller) {
+            // if (!ModelState.IsValid) return View(seller);
+            await _sellerService.InsertAsync(seller);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Seller/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<IActionResult> Edit(int? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var seller = await _context.Seller.FindAsync(id);
-            if (seller == null)
-            {
+            var seller = await _sellerService.FindByIdAsync(id);
+
+            if (seller == null) {
                 return NotFound();
             }
+
             return View(seller);
         }
 
         // POST: Seller/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // To protect from overcasting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,BaseSalary,BirthDate")] Seller seller)
-        {
-            if (id != seller.Id)
-            {
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,BaseSalary,BirthDate")] Seller seller) {
+            if (id != seller.Id) {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(seller);
-                    await _context.SaveChangesAsync();
+            if (!ModelState.IsValid) return View(seller);
+            try {
+                await _sellerService.UpdateAsync(seller);
+            } catch (DbUpdateConcurrencyException) {
+                if (!SellerExists(seller.Id)) {
+                    return NotFound();
+                } else {
+                    throw;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SellerExists(seller.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
-            return View(seller);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Seller/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<IActionResult> Delete(int? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var seller = await _context.Seller
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (seller == null)
-            {
+            var seller = await _sellerService.FindByIdAsync(id);
+            if (seller == null) {
                 return NotFound();
             }
+
+            await  _sellerService.RemoveAsync(id);
 
             return View(seller);
         }
@@ -137,21 +102,13 @@ namespace SaleWebMVC.Controllers
         // POST: Seller/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var seller = await _context.Seller.FindAsync(id);
-            if (seller != null)
-            {
-                _context.Seller.Remove(seller);
-            }
-
-            await _context.SaveChangesAsync();
+        public async Task<IActionResult> DeleteConfirmed(int id) {
+            await _sellerService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SellerExists(int id)
-        {
-            return _context.Seller.Any(e => e.Id == id);
+        private bool SellerExists(int id) {
+            return _sellerService.SellerExists(id);
         }
     }
 }

@@ -98,8 +98,6 @@ namespace SaleWebMVC.Controllers
                 return NotFound();
             }
 
-            await  _sellerService.RemoveAsync(id);
-
             return View(seller);
         }
 

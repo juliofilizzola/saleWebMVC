@@ -17,11 +17,11 @@ public class SellerService(SaleWebMvcContext context) {
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Seller?> FindByIdAsync(int? id) {
-        return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
+    public async Task<Seller> FindByIdAsync(int id) {
+        return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id)!;
     }
 
-    public async Task RemoveAsync(int? id) {
+    public async Task RemoveAsync(int id) {
         try {
             var obj = await _context.Seller.FindAsync(id);
             if (obj == null) {

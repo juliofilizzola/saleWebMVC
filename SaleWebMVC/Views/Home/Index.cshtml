@@ -81,6 +81,43 @@
     <section id="vendedores">
         <h2>Vendedores</h2>
         <p>Perfil dos vendedores e suas atividades...</p>
+
+        <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sellers.First().Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sellers.First().Department.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sellers.First().BaseSalary)
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Sellers) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Department.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BaseSalary)
+                            </td>
+                            <td>
+                                <a asp-action="EditDepartments" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="DetailsDepartments" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="DeleteDepartments" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
     </section>
 
 

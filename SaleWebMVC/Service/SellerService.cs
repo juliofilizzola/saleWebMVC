@@ -13,7 +13,6 @@ public class SellerService(SaleWebMvcContext context) {
     }
 
     public async Task InsertAsync(Seller obj) {
-        obj.Department = _context.Department.First();
         _context.Add(obj);
         await _context.SaveChangesAsync();
     }

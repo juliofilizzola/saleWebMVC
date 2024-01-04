@@ -6,7 +6,7 @@ using SaleWebMVC.Service.Exceptions;
 namespace SaleWebMVC.Service;
 
 public class SellerService(SaleWebMvcContext context) {
-    private readonly SaleWebMvcContext _context = context;
+    private readonly SaleWebMvcContext _context           = context;
 
     public async Task<List<Seller>> FindAll() {
         return await _context.Seller.ToListAsync();

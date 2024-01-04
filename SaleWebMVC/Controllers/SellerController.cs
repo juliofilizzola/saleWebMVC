@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SaleWebMVC.Models;
+using SaleWebMVC.Models.ViewModel;
 using SaleWebMVC.Service;
 
 namespace SaleWebMVC.Controllers
 {
-    public class SellerController(SellerService context) : Controller {
-        // private readonly SaleWebMvcContext _context;
+    public class SellerController(SellerService context, DepartmentService departmentService) : Controller {
+        private readonly DepartmentService _departmentService = departmentService;
         private readonly SellerService _sellerService = context;
 
         // GET: Seller
@@ -31,7 +32,10 @@ namespace SaleWebMVC.Controllers
 
         // GET: Seller/Create
         public IActionResult Create() {
-            return View();
+            var dep = _departmentService.FindAll();
+
+            var viewModel = new SellerFormViewModel { Departments = dep };
+            return View(viewModel);
         }
 
         // POST: Seller/Create

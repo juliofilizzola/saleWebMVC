@@ -1,8 +1,87 @@
-﻿@{
+﻿@model SaleWebMVC.Models.ViewModel.HomeViewModel
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+    <header>
+        <h1>Sistema de Vendas</h1>
+    </header>
+
+    <section id="departamentos">
+        <h2>Departamentos</h2>
+        <p>Informações sobre os departamentos aqui...</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Departments.First().Name)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Departments) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </section>
+
+    <section id="vendas">
+        <h2>Vendas</h2>
+        <p>Detalhes sobre as vendas podem ser encontrados aqui...</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleRecords.First().Seller)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleRecords.First().Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleRecords.First().Date)
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.SaleRecords) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Seller.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        <a asp-action="EditDepartments" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="DetailsDepartments" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="DeleteDepartments" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </section>
+
+    <section id="vendedores">
+        <h2>Vendedores</h2>
+        <p>Perfil dos vendedores e suas atividades...</p>
+    </section>
+
+
 </div>

@@ -21,18 +21,15 @@ public class SellerService(SaleWebMvcContext context) {
         return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
     }
 
-    public async Task RemoveAsync(int? id)
-    {
-        try
-        {
+    public async Task RemoveAsync(int? id) {
+        try {
             var obj = await _context.Seller.FindAsync(id);
             if (obj == null) {
                 throw new NotFoundException("Seller Not Found");
             }
             _context.Seller.Remove(obj);
             await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateException e) {
+        } catch (DbUpdateException e) {
             throw new IntegrityException("Can't delete seller because he/she has sales error" + " " + e.Message);
         }
     }

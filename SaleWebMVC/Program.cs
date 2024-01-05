@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SaleWebMVC.Controllers;
 using SaleWebMVC.Data;
 using SaleWebMVC.Service;
 
@@ -11,7 +12,6 @@ builder.Services.AddDbContextPool<SaleWebMvcContext>(options => {
 });
 
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -19,6 +19,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SeedingService>();
 builder.Services.AddScoped<SellerService>();
 builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<SaleRecordService>();
+builder.Services.AddScoped<DepartmentsController>();
+builder.Services.AddScoped<SellerController>();
+builder.Services.AddScoped<SaleRecordController>();
 
 var app = builder.Build();
 
@@ -36,12 +40,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 
-
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
-    name: "department",
-    pattern: "{controller=Departments}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
